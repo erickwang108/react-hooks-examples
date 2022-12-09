@@ -4,9 +4,6 @@ import styled from 'styled-components';
 const Container = styled.div`
   margin: 12px;
   padding: 12px;
-  border: 1px solid #aaa;
-  background-color: #eee;
-  border-radius: 4px;
 `;
 
 const ImperativeTutorial = forwardRef((props, ref) => {

@@ -1,10 +1,12 @@
 import React, { useRef, useMemo, useState } from 'react';
 import { Tab, Tabs, Box } from '@mui/material';
-import ReducerTutorial from './components/ReducerTutorial';
-import DeferredValueTutorial from './components/DeferredValueTutorial';
-import DebugValueTutorial from './components/DebugValueTutorial';
-import ImperativeTutorial from './components/ImperativeTutorial';
-import LayoutEffectTutorial from './components/LayoutEffectTutorial';
+import ReducerTutorial from './tutorials/ReducerTutorial';
+import DeferredValueTutorial from './tutorials/DeferredValueTutorial';
+import DebugValueTutorial from './tutorials/DebugValueTutorial';
+import TransitionTutorial from './tutorials/TransitionTutorial';
+import ImperativeTutorial from './tutorials/ImperativeTutorial';
+import LayoutEffectTutorial from './tutorials/LayoutEffectTutorial';
+import SyncExternalStoreTutorial from './tutorials/SyncExternalStoreTutorial';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -31,6 +33,12 @@ export default function App() {
   const [value, setValue] = useState(0);
   const items = useMemo(() => {
     return [{
+      label: 'useSyncExternalStore',
+      component: <SyncExternalStoreTutorial />
+    }, {
+      label: 'useTransition',
+      component: <TransitionTutorial />
+    }, {
       label: 'userDeferredValue',
       component: <DeferredValueTutorial />
     }, {

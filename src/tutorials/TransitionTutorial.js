@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useDeferredValue } from 'react';
+import React, { useState, useMemo, useDeferredValue, useTransition } from 'react';
 import styled from 'styled-components';
 
 const ListContainer = styled.div`
@@ -9,9 +9,17 @@ const ListContainer = styled.div`
 
 const MAX_COUNT = 10000;
 
-export default function DeferredTutorial() {
+export default function TransitionTutorial() {
   const [name, setName] = useState("");
   const value = useDeferredValue(name);
+  const [isPending, startTransition] = useTransition();
+
+  const handleChange = (e) => {
+    startTransition(() => {
+      setName(e.target.value);
+    });
+  };
+
   const list = useMemo(() => {
     if (!value) {
       return [];
@@ -32,10 +40,12 @@ export default function DeferredTutorial() {
 
   return (
     <>
-      <input type="text" value={name} onChange={e => setName(e.target.value)} />
-      {list.length > 0 && <ListContainer>
-        {list.map(item => <div key={item.id}>{item.name}</div>)}
-      </ListContainer>}
+      <input type="text" placeholder="please input a number" value={name} onChange={handleChange} />
+      <ListContainer>
+        {isPending
+          ? "Loading..." :
+          list.map(item => <div key={item.id}>{item.name}</div>)}
+      </ListContainer>
     </>
   );
 }
