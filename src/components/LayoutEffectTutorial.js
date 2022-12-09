@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from 'styled-components';
 
 const Button = styled.button`
@@ -19,7 +19,7 @@ const LayoutEffectTutorial = () => {
 
   return (
     <div>
-      <h1>useEffect - Render Rectangle</h1>
+      <div>useEffect - Render Rectangle</div>
       <div>
         <Button
           onClick={() => setDisplay(!display)}
