@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useMemo, useState } from 'react';
 import { Tab, Tabs, Box } from '@mui/material';
 import ReducerTutorial from './components/ReducerTutorial';
-import DeferredTutorial from './components/DeferredTutorial';
+import DeferredValueTutorial from './components/DeferredValueTutorial';
 import DebugValueTutorial from './components/DebugValueTutorial';
 import ImperativeTutorial from './components/ImperativeTutorial';
 import LayoutEffectTutorial from './components/LayoutEffectTutorial';
@@ -29,6 +29,27 @@ function TabPanel(props) {
 export default function App() {
   const ref = useRef(null);
   const [value, setValue] = useState(0);
+  const items = useMemo(() => {
+    return [{
+      label: 'userDeferredValue',
+      component: <DeferredValueTutorial />
+    }, {
+      label: 'useReducer',
+      component: <ReducerTutorial />,
+    }, {
+      label: 'useImperative',
+      component: (<>
+        <ImperativeTutorial ref={ref} />
+        <button onClick={() => { ref.current.clickMe() }}>Click Me</button>
+      </>),
+    }, {
+      label: 'useLayoutEffect',
+      component: <LayoutEffectTutorial />,
+    }, {
+      label: 'useDebugValue',
+      component: <DebugValueTutorial />,
+    }]
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -38,29 +59,14 @@ export default function App() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange}>
-          <Tab label="useDeferredValue" />
-          <Tab label="useReducer" />
-          <Tab label="useImperative" />
-          <Tab label="useLayoutEffect" />
-          <Tab label="useDebugValue" />
+          {items.map(({ label }, index) => (<Tab key={index} label={label} />))}
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <DeferredTutorial />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <ReducerTutorial />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <ImperativeTutorial ref={ref} />
-        <button onClick={() => { ref.current.clickMe() }}>Click Me</button>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <LayoutEffectTutorial />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <DebugValueTutorial />
-      </TabPanel>
+      {items.map(({ component }, index) => (
+        <TabPanel key={index} value={value} index={index}>
+          {component}
+        </TabPanel>
+      ))}
     </Box>
   );
 }
